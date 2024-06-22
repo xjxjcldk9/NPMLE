@@ -1,6 +1,6 @@
 import numpy as np
-from src.utils.data_generators import normal_normal, normal_normal_cheat
-from src.utils.NPMLE_util import *
+from NPMLE.utils.data_generators import normal_normal, normal_normal_cheat
+from NPMLE.utils.NPMLE_util import *
 
 # Setting Parameters
 theta_cov = np.array([[0.5, 0.2], [0.2, 0.5]])

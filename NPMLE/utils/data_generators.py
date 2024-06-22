@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm, beta, multivariate_normal
-from src.utils.NPMLE_util import OLS
+from NPMLE.utils.NPMLE_util import OLS
 from scipy.integrate import nquad
 
 
@@ -92,7 +92,9 @@ def beta_bernoulli_pms_quad(a, b, rho):
 
     return output
 
-#TODO: 優化這個
+# TODO: 優化這個
+
+
 def beta_bernoulli_cheat(x, y, a, b, rho):
     # first calculate 4 possible pms
     pms = beta_bernoulli_pms_quad(a, b, rho)

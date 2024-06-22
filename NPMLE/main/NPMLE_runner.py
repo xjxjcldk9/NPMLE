@@ -40,28 +40,26 @@ n = args.n
 B = args.B
 N = args.N
 
-
-NPMLE_PATH = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = Path(__file__).parents[2]
+CASE_ARTIFACT_DIR = ROOT_DIR / 'artifacts' / f'{args.case}'
+PARAMETERS_DIR = ROOT_DIR / 'NPMLE' / \
+    'parameters' / f'{args.case}_parameters.py'
 
 # 讀parameters檔，用hash去命名，這樣才不會串在一起
-with open(f'{NPMLE_PATH}/{args.case}_parameters.py') as f:
+with open(PARAMETERS_DIR) as f:
     hashing = hashlib.md5(f.read().encode())
 
 hash_num = hashing.hexdigest()[:5]
 
 
-artifact = f'{NPMLE_PATH}/{args.case}_plot'
-cache_dir = artifact + '/cache'
-
-# 以防電腦沒有，我不太想push這個資料夾
-Path(artifact).mkdir(exist_ok=True)
-Path(cache_dir).mkdir(exist_ok=True)
+CASE_ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
+(CASE_ARTIFACT_DIR / 'cache').mkdir(exist_ok=True)
 
 # import parameters
 if args.case == 'normal_normal':
-    from src.parameters.normal_normal_parameters import *
+    from NPMLE.parameters.normal_normal_parameters import *
 elif args.case == 'beta_bernoulli':
-    from src.parameters.beta_bernoulli_parameters import *
+    from NPMLE.parameters.beta_bernoulli_parameters import *
 
 if args.NP:
     run_kwargs['NPMLE_beta_return'] = True

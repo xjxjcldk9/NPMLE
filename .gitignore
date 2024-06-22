@@ -3,7 +3,9 @@ __pycache__
 *env
 *plot
 .DS_Store
+.vscode
 
 references/
 
 *egg-info
+
