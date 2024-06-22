@@ -1,0 +1,7 @@
+# NPMLE
+matplotlib
+numpy 
+scipy
+seaborn
+pandas
+POT

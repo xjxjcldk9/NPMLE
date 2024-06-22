@@ -1,0 +1,7 @@
+__pycache__
+
+*env
+*plot
+.DS_Store
+
+references/
