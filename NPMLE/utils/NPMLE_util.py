@@ -3,8 +3,6 @@ import seaborn as sns
 import ot
 import matplotlib.pyplot as plt
 import numpy as np
-import warnings
-warnings.filterwarnings("ignore")
 
 
 def make_grid(lg):
@@ -158,15 +156,14 @@ def proposed_run(lg, generator, NPMLE_beta_return=False, True_prior_grid_beta_re
     if plot:
         plot_heat_prior(w, w_grid_prior, grid,
                         plot_save, generator_kwargs['n'])
-        return 
+        return
 
     if NPMLE_beta_return:
         NPMLE_post_mean = calculate_post_mean(x, w, likelihood, grid)
         NPMLE_beta = OLS(y, NPMLE_post_mean)
         return_betas['NPMLE'] = NPMLE_beta
 
-
-    #TODO: 太慢了！
+    # TODO: 太慢了！
     if True_prior_grid_beta_return:
         true_prior_grid_post_mean = calculate_post_mean(
             x, w_grid_prior, likelihood, grid)
@@ -174,7 +171,7 @@ def proposed_run(lg, generator, NPMLE_beta_return=False, True_prior_grid_beta_re
         return_betas['TPrior'] = true_prior_grid_beta
 
     if True_post_mean_beta_return:
-        return_betas['TPost']  = post_mean_func(x, y)
+        return_betas['TPost'] = post_mean_func(x, y)
 
     return return_betas
 
@@ -198,7 +195,7 @@ def simulate_betas(B, run, seed=208903, verbose=False, run_kwargs={}):
         for name, beta in betas.items():
             beta_lists.append((beta[0], beta[1], n, name))
 
-    return pd.DataFrame(beta_lists, columns=['0','1','n','case'])
+    return pd.DataFrame(beta_lists, columns=['0', '1', 'n', 'case'])
 
 
 def make_betas_consistent_plots(beta_df, beta, save_at, hash_num):

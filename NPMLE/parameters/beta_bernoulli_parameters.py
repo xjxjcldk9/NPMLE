@@ -1,7 +1,6 @@
 import numpy as np
-from data_generators import beta_bernoulli, beta_bernoulli_cheat
-from NPMLE_util import *
-
+from src.utils.data_generators import beta_bernoulli, beta_bernoulli_cheat
+from src.utils.NPMLE_util import *
 
 
 # Setting Parameters
@@ -28,7 +27,7 @@ NPMLE_kwargs = {'eta': 0.03,
 
 
 def cheat_pms(x, y):
-        return beta_bernoulli_cheat(x, y, a, b)
+    return beta_bernoulli_cheat(x, y, a, b)
 
 
 run_kwargs = {
@@ -36,5 +35,5 @@ run_kwargs = {
     'generator': beta_bernoulli,
     'generator_kwargs': beta_bernoulli_kwargs,
     'NPMLE_kwargs': NPMLE_kwargs,
-    #'cheat': cheat_pm
+    # 'cheat': cheat_pm
 }

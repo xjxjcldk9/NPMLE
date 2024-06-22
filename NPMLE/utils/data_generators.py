@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm, beta, multivariate_normal
-from NPMLE_util import OLS
+from src.utils.NPMLE_util import OLS
 from scipy.integrate import nquad
 
 
