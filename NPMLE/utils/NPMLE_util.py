@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# TODO: Refactor this code
 def make_grid(lg):
     '''
     given a line grid (k), output a squared grid (k**2, 2).
@@ -93,6 +94,8 @@ def plot_heat_prior(w, w_grid_prior, grid, plot_save, n):
     plot w on grids. Also plot true theta and x on the same plot
     '''
     fig, axs = plt.subplots(1, 2, figsize=(12, 4))
+    # https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html#sphx-glr-gallery-images-contours-and-fields-interpolation-methods-py
+    # grid 的以及繪圖設計
 
     kn = int(np.sqrt(grid.shape[0]))
     lower = grid[0][0]
@@ -102,7 +105,7 @@ def plot_heat_prior(w, w_grid_prior, grid, plot_save, n):
     titles = ['Estimated Theta Prior', 'True Theta Prior']
 
     for i in range(2):
-        im = axs[i].imshow(split_weight(ws[i]), cmap='viridis', origin='lower',
+        im = axs[i].imshow(split_weight(ws[i]),  origin='lower',
                            interpolation='nearest')
         fig.colorbar(im, label='Probability')
 
@@ -154,6 +157,7 @@ def proposed_run(lg, generator, NPMLE_beta_return=False, True_prior_grid_beta_re
     w_grid_prior /= w_grid_prior.sum()
 
     if plot:
+
         plot_heat_prior(w, w_grid_prior, grid,
                         plot_save, generator_kwargs['n'])
         return

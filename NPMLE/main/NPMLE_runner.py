@@ -42,18 +42,18 @@ N = args.N
 
 ROOT_DIR = Path(__file__).parents[2]
 CASE_ARTIFACT_DIR = ROOT_DIR / 'artifacts' / f'{args.case}'
-PARAMETERS_DIR = ROOT_DIR / 'NPMLE' / \
+PARAMETERS = ROOT_DIR / 'NPMLE' / \
     'parameters' / f'{args.case}_parameters.py'
 
 # 讀parameters檔，用hash去命名，這樣才不會串在一起
-with open(PARAMETERS_DIR) as f:
+with open(PARAMETERS) as f:
     hashing = hashlib.md5(f.read().encode())
 
 hash_num = hashing.hexdigest()[:5]
 
-
 CASE_ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
-(CASE_ARTIFACT_DIR / 'cache').mkdir(exist_ok=True)
+CACHE_DIR = CASE_ARTIFACT_DIR / 'cache'
+CACHE_DIR.mkdir(exist_ok=True)
 
 # import parameters
 if args.case == 'normal_normal':
@@ -82,8 +82,8 @@ if __name__ == '__main__':
                         del_list.append(f'{dest}/{file}')
                         del_name.append(file)
 
-        file_collector(artifact)
-        file_collector(cache_dir)
+        file_collector(CASE_ARTIFACT_DIR)
+        file_collector(CACHE_DIR)
 
         print('You are going to delete:')
         print('\n'.join(del_name))
@@ -94,15 +94,22 @@ if __name__ == '__main__':
     if args.plot_prior:
         if not args.NP:
             raise ValueError('Must Enable NP')
+        if not args.n:
+            raise ValueError('Must Specify n')
         run_kwargs['generator_kwargs']['n'] = n
         proposed_run(plot=True,
-                     plot_save=f'{artifact}/{hash_num}_heat_prior_{n:_}',
+                     plot_save=CASE_ARTIFACT_DIR /
+                     f'{hash_num}_prior_{n:_}',
                      **run_kwargs)
 
-    # 先存著
     if args.cache:
+        if not args.N:
+            raise ValueError('Please Specify N value array.')
+        if not args.B:
+            raise ValueError('Please Specify B.')
+
         for n in N:
-            FILE_NAME = f'{cache_dir}/{hash_num}_b{B}_n{n}.csv'
+            FILE_NAME = CACHE_DIR / f'{hash_num}_b{B}_n{n}.csv'
 
             if Path(FILE_NAME).is_file() and not args.ignore_cache:
                 continue
@@ -115,13 +122,15 @@ if __name__ == '__main__':
 
     if args.plot_MSE:
         # 一次畫cache裡面，相同hash的東西
-        CACHE_LISTS = os.listdir(cache_dir)
+        CACHE_LISTS = os.listdir(CACHE_DIR)
 
         beta_list = []
         for file in CACHE_LISTS:
-            if file.split('_')[0] == hash_num:
-                beta_list.append(pd.read_csv(f'{cache_dir}/{file}'))
+            if file[:5] == hash_num:
+                beta_list.append(pd.read_csv(CACHE_DIR / file))
+        if len(beta_list) == 0:
+            print('There are no betas to draw')
 
         beta_dfs = pd.concat(beta_list)
         beta_dfs.groupby('case', as_index=False).apply(
-            make_betas_consistent_plots, beta, artifact, hash_num)
+            make_betas_consistent_plots, beta, CASE_ARTIFACT_DIR, hash_num)
