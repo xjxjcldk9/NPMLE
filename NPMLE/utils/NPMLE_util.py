@@ -38,7 +38,7 @@ def compute_gradient(M, p):
     return res - res.mean(), loss
 
 
-def NPMLE(x, likelihood, grid, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False, cheat_weight_init=None, weight_init=None):
+def NPMLE(x, likelihood, grid, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False):
     """
     x: (n, 2) 
     grid: (kn2, 2)
@@ -48,10 +48,7 @@ def NPMLE(x, likelihood, grid, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False,
     # 1. Initialization
     kn2 = grid.shape[0]
 
-    if cheat_weight_init:
-        w = weight_init(grid)
-    else:
-        w = np.random.uniform(size=kn2)
+    w = np.random.uniform(size=kn2)
     w /= w.sum()
 
     # 2. Iterate
@@ -89,7 +86,7 @@ def split_weight(w):
     return output
 
 
-def plot_heat_prior(w, w_grid_prior, grid, plot_save, n):
+def plot_heat_prior(w, w_grid_prior, lg, plot_save, n):
     '''
     plot w on grids. Also plot true theta and x on the same plot
     '''
@@ -97,26 +94,29 @@ def plot_heat_prior(w, w_grid_prior, grid, plot_save, n):
     # https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html#sphx-glr-gallery-images-contours-and-fields-interpolation-methods-py
     # grid 的以及繪圖設計
 
-    kn = int(np.sqrt(grid.shape[0]))
-    lower = grid[0][0]
-    upper = grid[-1][-1]
+    #kn = len(lg)
+    #lower = lg[0]
+    #upper = lg[-1]
+    
+    #grid = np.meshgrid(lg, lg)
 
     ws = [w, w_grid_prior]
     titles = ['Estimated Theta Prior', 'True Theta Prior']
 
     for i in range(2):
-        im = axs[i].imshow(split_weight(ws[i]),  origin='lower',
-                           interpolation='nearest')
+        im = axs[i].imshow(ws[i],  origin='lower', 
+                           interpolation='nearest', 
+                           )
         fig.colorbar(im, label='Probability')
 
-        ticks = np.arange(kn)
-        labels = np.round(np.linspace(lower, upper, kn), 2)
-        axs[i].set_xticks(ticks, labels, rotation=90)
-        axs[i].set_yticks(ticks, labels, rotation=0)
+        ticks = np.arange(len(lg))
+        labels = lg
+        #axs[i].set_xticks(ticks, labels, rotation=90)
+        #axs[i].set_yticks(ticks, labels, rotation=0)
         axs[i].set_title(titles[i])
 
     fig.suptitle(f'n={n:,}')
-    plt.savefig(plot_save)
+    #plt.savefig(plot_save)
 
 
 def normalize_axis1(arr):

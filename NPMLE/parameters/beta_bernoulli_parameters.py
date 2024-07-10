@@ -1,6 +1,6 @@
 import numpy as np
-from src.utils.data_generators import beta_bernoulli, beta_bernoulli_cheat
-from src.utils.NPMLE_util import *
+from NPMLE.utils.data_generators import beta_bernoulli, beta_bernoulli_cheat
+from NPMLE.utils.NPMLE_util import *
 
 
 # Setting Parameters
