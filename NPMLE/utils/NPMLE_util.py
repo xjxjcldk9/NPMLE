@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# TODO: Refactor this code
 def make_grid(lg):
     '''
     given a line grid (k), output a squared grid (k**2, 2).
