@@ -26,12 +26,7 @@ class parameters:
         
         ax.bar3d(x, y, 0, 0.02, 0.02, w)
         
-        
-        
-        
-   
-    
-    def NPMLE(self, X, likelihood='actual', theta=None, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False):
+    def NPMLE(self, X, likelihood='actual', theta=None, eta=0.1, gtol=1e-6, max_iter=1000, verbose=False):
         """
         x: (n, 2) 
         eta: learning rate
@@ -55,7 +50,8 @@ class parameters:
             w -= eta * u
             gnorm = np.linalg.norm(u)
             if verbose:
-                print(f"iteration {i}: loss={loss:.4f}, gnorm={gnorm:.4f}")
+                if i%50==0:
+                    print(f"iteration {i}: loss={loss:.4f}, gnorm={gnorm:.7f}")
             i += 1
         return w
     
