@@ -25,7 +25,13 @@ class parameters:
         
         
         ax.bar3d(x, y, 0, 0.02, 0.02, w)
-        
+    
+    
+    
+    
+    
+    
+    
     def NPMLE(self, X, likelihood='actual', theta=None, eta=0.1, gtol=1e-6, max_iter=1000, verbose=False):
         """
         x: (n, 2) 
