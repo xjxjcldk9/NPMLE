@@ -65,6 +65,27 @@ def NPMLE(x, likelihood, grid, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False)
     return w
 
 
+
+def NPMLE_pot(L, eta=0.1, gtol=1e-5, max_iter=1000, verbose=False):
+    
+    n, m = L.shape
+
+    w = np.random.uniform(size=m)
+    w /= w.sum()
+
+    gnorm = np.inf
+    i = 0
+    while (gnorm > gtol) and (i < max_iter):
+        u, loss = compute_gradient(L, w)
+        w -= eta * u
+        gnorm = np.linalg.norm(u)
+        if verbose:
+            print(f"iteration {i}: loss={loss:.4f}, gnorm={gnorm:.4f}")
+        i += 1
+    return w
+
+
+
 def OLS(y, X):
     return np.linalg.inv(X.T @ X) @ X.T @ y
 
