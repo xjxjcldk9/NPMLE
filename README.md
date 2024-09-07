@@ -42,6 +42,8 @@ $y_i=\beta f(\theta_i)+\epsilon_i$
 
 2. 我會需要測試不同的likelihood，不同的二階段函數形式
 
+3. 維度也會不一樣，需要注意矩陣乘法的相容性
+
 ### consistenency
 
 要能夠比較不同n的時候跑出來B個beta的結果
