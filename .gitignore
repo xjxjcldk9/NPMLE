@@ -9,3 +9,8 @@ references/
 
 *egg-info
 artifacts
+
+.ipynb_checkpoints
+
+dim2_combinations
+notebooks/*.py
