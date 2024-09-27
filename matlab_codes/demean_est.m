@@ -1,4 +1,4 @@
-function [z_excluded, z_coef] = demeanEst(y, z)
+function [z_excluded, z_coef] = demean_est(y, z)
 
 
 
